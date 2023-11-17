@@ -1,0 +1,25 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = "postgresql://postgres:postgres@localhost:5432/transactions"
+}
+
+model User {
+  id           Int        @id @default(autoincrement())
+  name         String
+  balance      Int
+  transactions Transfer[]
+}
+
+model Transfer {
+  id     Int   @id @default(autoincrement())
+  amount Float
+  byUserId User @relation(fields: [id], references: [id])
+  toUserId Int     @relation(fields: [toUserId], references: [id])
+  createdAt DateTime  @default(now())
+
+}
