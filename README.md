@@ -19,7 +19,11 @@ O próximo passo é iniciar o servidor com o comando:
 ```bash
 npm start
 ```
-Após iniciar o servidor você poderá acessar a documentação do projeto no SWAGGER pela URL: 
+Após iniciar o servidor, você poderá acessá-lo através de:
+
+```http://localhost:3001```
+
+e a documentação do projeto no SWAGGER através da URL: 
 
  ``` http://localhost:3001/api-docs/```
 
