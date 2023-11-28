@@ -5,21 +5,34 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = "postgresql://postgres:postgres@localhost:5432/transactions"
+  url = env("DB_URL")
 }
 
 model User {
-  id           Int        @id @default(autoincrement())
-  name         String
+  id           Int          @id @default(autoincrement())
+  userName     String
   balance      Int
-  transactions Transfer[]
+  sentTransfers Transfer[]  @relation("sender")
+  receivedTransfers Transfer[] @relation("receiver")
+  deposits Deposit[] @relation("user")
 }
 
 model Transfer {
-  id     Int   @id @default(autoincrement())
-  amount Float
-  byUserId User @relation(fields: [id], references: [id])
-  toUserId Int     @relation(fields: [toUserId], references: [id])
-  createdAt DateTime  @default(now())
+  id             Int      @id @default(autoincrement())
+  value          Int
+  createdAt      DateTime @default(now())
+  sender         User     @relation(name: "sender", fields: [senderUserId], references: [id])
+  receiver       User     @relation(name: "receiver", fields: [receiverUserId], references: [id])
+  senderUserId   Int
+  receiverUserId Int
+}
+
+model Deposit {
+  id             Int      @id @default(autoincrement())
+  userID         User     @relation(name: "user", fields: [user], references: [id])
+  user           Int  
+  value          Int
+  createdAt      DateTime @default(now())
 
 }
+
